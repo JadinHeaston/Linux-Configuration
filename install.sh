@@ -1,10 +1,6 @@
 #!/bin/bash
 # Installation Script
 
-## Elevating to root
-
-sudo -i #Prompts for password
-
 ## Command Aliases
 
 #touch ~/.bash_aliases
@@ -16,7 +12,7 @@ sudo add-apt-repository -y multiverse # Adding Multiverse repository.
 sudo add-apt-repository -y ppa:phoerious/keepassxc
 sudo add-apt-repository -y ppa:lutris-team/lutris
 
-## Performing initial install
+## Performing initial update
 
 sudo apt update && sudo apt upgrade -y # Updating apt
 
@@ -26,9 +22,11 @@ sudo apt update && sudo apt upgrade -y # Updating apt
 
 #### Window Management ([material-shell](https://github.com/material-shell/material-shell))
 
+sudo apt install -y make npm git
 git clone https://github.com/material-shell/material-shell.git
 cd material-shell
 make install
+cd ~
 
 #sudo apt install -y awesome #Installing awesome
 #echo "exec awesome" > ~/.xinitrc #Launching awesome
@@ -55,15 +53,15 @@ mv /usr/share/xsessions/ubuntu-xorg.desktop /usr/share/xsessions/ubuntu-xorg.des
 
 #### Firefox
 
-sudo apt -y install firefox
+sudo apt install -y firefox
 
 #### KeePassXC
 
-sudo apt -y install keepassxc
+sudo apt install -y keepassxc
 
 ### VLC
 
-sudo apt -y install vlc
+sudo apt install -y vlc
 
 ### Programming
 
@@ -72,7 +70,7 @@ sudo apt -y install vlc
 
 #### Git
 
-sudo apt -y install git
+sudo apt install -y git
 
 ##### Git Configuration
 
@@ -89,23 +87,25 @@ sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/
 sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
 rm -f packages.microsoft.gpg
 sudo apt install apt-transport-https
-sudo apt -y install code
+sudo apt install -y code
 
 ### Gaming
 
 #### Lutris
 
 sudo apt update
-sudo apt -y install lutris
+sudo apt install -y lutris
 
 #### Steam
 
-sudo apt-get -y install steam-launcher
+sudo dpkg --add-architecture i386
+sudo apt-get install -y steam
+sudo dpkg --remove-architecture i386
 
 #### Minecraft
 
 wget https://launcher.mojang.com/download/Minecraft.deb
-sudo apt -y install ./Minecraft.deb
+sudo apt install -y ./Minecraft.deb
 sudo rm -rf ./Minecraft.deb
 
 # Final updating to ensure verything is up-to-date.
