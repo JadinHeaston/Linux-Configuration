@@ -1,4 +1,4 @@
-## Linux Configuration
+# Linux Configuration
 
 This contains comprehensive instructions on how to recreate my preferred Linux environment.  
 This will always be a work in progress as Linux changes, and as I change.  

@@ -3,9 +3,9 @@
 
 ## Adding repositories
 
-sudo add-apt-repository multiverse # Adding Multiverse repository.
-sudo add-apt-repository ppa:phoerious/keepassxc
-sudo add-apt-repository ppa:lutris-team/lutris
+sudo add-apt-repository -y multiverse # Adding Multiverse repository.
+sudo add-apt-repository -y ppa:phoerious/keepassxc
+sudo add-apt-repository -y ppa:lutris-team/lutris
 
 # Performing initial install
 
@@ -17,15 +17,15 @@ sudo apt update && sudo apt upgrade -y # Updating apt
 
 #### Firefox
 
-sudo apt install firefox
+sudo apt -y install firefox
 
 #### KeePassXC
 
-sudo apt install keepassxc
+sudo apt -y install keepassxc
 
 ### VLC
 
-sudo apt install vlc
+sudo apt -y install vlc
 
 ### Programming
 
@@ -34,7 +34,7 @@ sudo apt install vlc
 
 #### Git
 
-sudo apt install git
+sudo apt -y install git
 
 ##### Git Configuration
 
@@ -45,25 +45,25 @@ git config --global user.email "jadin+heaston"
 
 #### VS Code
 
-sudo apt install software-properties-common apt-transport-https wget
+sudo apt -y install software-properties-common apt-transport-https wget
 wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-sudo apt install code -y
+sudo apt -y install code
 
 ### Gaming
 
 #### Lutris
 
 sudo apt update
-sudo apt install lutris
+sudo apt -y install lutris
 
 #### Steam
 
-#sudo apt-get install steam -y
+#sudo apt-get -y install steam
 
 #### Minecraft
 
 wget https://launcher.mojang.com/download/Minecraft.deb
-sudo apt install ./Minecraft.deb
+sudo apt -y install ./Minecraft.deb
 sudo rm -rf ./Minecraft.deb
 
 
