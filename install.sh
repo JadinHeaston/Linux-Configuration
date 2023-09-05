@@ -110,4 +110,4 @@ sudo apt install -y ./Minecraft.deb
 sudo rm -rf ./Minecraft.deb
 
 # Final updating to ensure verything is up-to-date.
-sudo apt update && sudo apt upgrade -y
+sudo apt update && sudo apt upgrade -y && sude apt auto-remove -y
