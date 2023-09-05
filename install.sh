@@ -22,10 +22,11 @@ sudo apt update && sudo apt upgrade -y # Updating apt
 
 #### Window Management ([material-shell](https://github.com/material-shell/material-shell))
 
-sudo apt install -y make npm git
+sudo apt install -y gnome-tweaks make npm git
 git clone https://github.com/material-shell/material-shell.git
 cd material-shell
-sudo make install
+make install
+rgnm #Reloading shell
 cd ~
 
 #sudo apt install -y awesome #Installing awesome
@@ -110,4 +111,4 @@ sudo apt install -y ./Minecraft.deb
 sudo rm -rf ./Minecraft.deb
 
 # Final updating to ensure verything is up-to-date.
-sudo apt update && sudo apt upgrade -y && sude apt auto-remove -y
+sudo apt update && sudo apt upgrade -y && sud apt auto-remove -y
