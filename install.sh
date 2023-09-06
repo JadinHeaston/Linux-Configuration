@@ -30,6 +30,7 @@ make install
 killall -3 gnome-shell
 cd ~
 gnome-extensions enable material-shell@papyelgringo
+gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/Multiverse_by_Emanuele_Santoro.png
 
 #sudo apt install -y awesome #Installing awesome
 #echo "exec awesome" > ~/.xinitrc #Launching awesome
