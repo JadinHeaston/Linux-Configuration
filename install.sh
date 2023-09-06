@@ -14,7 +14,8 @@ sudo add-apt-repository -y ppa:lutris-team/lutris
 
 ## Performing initial update
 
-sudo apt update && sudo apt upgrade -y # Updating apt
+sudo apt update
+sudo apt upgrade -y # Updating apt
 
 ## Software
 
@@ -26,7 +27,7 @@ sudo apt install -y gnome-tweaks make npm git
 git clone https://github.com/material-shell/material-shell.git
 cd material-shell
 make install
-rgnm #Reloading shell
+killall -3 gnome-shell
 cd ~
 
 #sudo apt install -y awesome #Installing awesome
@@ -35,8 +36,8 @@ cd ~
 
 ###### Removing previous window manager.
 
-mv /usr/share/xsessions/ubuntu.desktop /usr/share/xsessions/ubuntu.desktop.bak
-mv /usr/share/xsessions/ubuntu-xorg.desktop /usr/share/xsessions/ubuntu-xorg.desktop.bak
+sudo mv /usr/share/xsessions/ubuntu.desktop /usr/share/xsessions/ubuntu.desktop.bak
+sudo mv /usr/share/xsessions/ubuntu-xorg.desktop /usr/share/xsessions/ubuntu-xorg.desktop.bak
 
 ##### Custom Theme (https://github.com/HikariKnight/material-awesome)
 
@@ -101,6 +102,7 @@ sudo apt install -y lutris
 #### Steam
 
 sudo dpkg --add-architecture i386
+sudo apt update
 sudo apt-get install -y steam
 sudo dpkg --remove-architecture i386
 
@@ -111,4 +113,6 @@ sudo apt install -y ./Minecraft.deb
 sudo rm -rf ./Minecraft.deb
 
 # Final updating to ensure verything is up-to-date.
-sudo apt update && sudo apt upgrade -y && sud apt auto-remove -y
+sudo apt update
+sudo apt upgrade -y
+sudo apt auto-remove -y
