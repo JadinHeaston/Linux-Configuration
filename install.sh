@@ -29,6 +29,7 @@ cd material-shell
 make install
 killall -3 gnome-shell
 cd ~
+gnome-extensions enable material-shell@papyelgringo
 
 #sudo apt install -y awesome #Installing awesome
 #echo "exec awesome" > ~/.xinitrc #Launching awesome
