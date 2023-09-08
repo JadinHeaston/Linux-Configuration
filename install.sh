@@ -3,9 +3,7 @@
 
 ## Command Aliases
 
-#touch ~/.bash_aliases
-#echo "alias lock=\"i3lock-fancy -p -g\"" > ~/.bash_aliases #Locks the screen (pixelating and greyscaling background)
-
+touch ~/.bash_aliases
 ## Adding repositories
 
 sudo add-apt-repository -y multiverse # Adding Multiverse repository.
@@ -32,28 +30,10 @@ cd ~
 gnome-extensions enable material-shell@papyelgringo
 gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/Multiverse_by_Emanuele_Santoro.png
 
-#sudo apt install -y awesome #Installing awesome
-#echo "exec awesome" > ~/.xinitrc #Launching awesome
-#echo "startx" >> ~/.bash_profile #Removed need to type on login
-
 ###### Removing previous window manager.
 
 sudo mv /usr/share/xsessions/ubuntu.desktop /usr/share/xsessions/ubuntu.desktop.bak
 sudo mv /usr/share/xsessions/ubuntu-xorg.desktop /usr/share/xsessions/ubuntu-xorg.desktop.bak
-
-##### Custom Theme (https://github.com/HikariKnight/material-awesome)
-
-###### Dependencies
-
-#sudo apt install -y i3lock-fancy #Lock Screen - https://github.com/meskarune/i3lock-fancy
-#sudo apt install -y rofi #Application Launcher - https://github.com/meskarune/i3lock-fancy
-#sudo apt install -y materia-gtk-theme #GTK theme - https://github.com/nana-4/materia-theme
-#sudo apt install -y papirus-icon-theme #Icon theme - https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
-#sudo apt install -y lxappearance
-##sudo apt install -y redshift #Bluelight filter - https://github.com/jonls/redshift
-#sudo apt install -y qt5-style-plugins
-#echo "XDG_CURRENT_DESKTOP=Unity" > /etc/environment
-#echo "QT_QPA_PLATFORMTHEME=gtk2" > /etc/environment
 
 #### Firefox
 
@@ -62,8 +42,30 @@ sudo apt install -y firefox
 #### KeePassXC
 
 sudo apt install -y keepassxc
+##Enabling auto-type
+#touch ~/.bash_aliases
 
-### VLC
+##### Enabling WebDav support
+
+sudo apt install davfs2
+#sudo dpkg-reconfigure davfs2
+mkdir -p {KEEPASS_WEBDAV_MOUNT_PATH}
+mkdir ~/.davfs2/
+touch ~/.davfs2/secrets
+echo "https://kp.jadinheaston.com/	{KEEPASS_WEBDAV_USERNAME}	{KEEPASS_WEBDAV_PASSWORD}" > ~/.davfs2/secrets #Tab delimited
+chmod 600 ~/.davfs2/secrets
+echo "https://kp.jadinheaston.com/ {KEEPASS_WEBDAV_MOUNT_PATH} davfs user,_netdev,auto,file_mode=600,dir_mode=700 0 1" > /etc/fstab
+sudo usermod -a -G davfs2 {USERNAME}
+touch ~/.bash_profile
+sudo systemctl enable NetworkManager-wait-online.service #Disable for a potential boot improvement.
+echo "mount {KEEPASS_WEBDAV_MOUNT_PATH}" > ~/.bash_profile #Running on login.
+mount {KEEPASS_WEBDAV_MOUNT_PATH}
+
+#### Thunderbird
+
+sudo apt install -y thunderbird
+
+#### VLC
 
 sudo apt install -y vlc
 
@@ -114,7 +116,12 @@ wget https://launcher.mojang.com/download/Minecraft.deb
 sudo apt install -y ./Minecraft.deb
 sudo rm -rf ./Minecraft.deb
 
-# Final updating to ensure verything is up-to-date.
+### Power Management/Performance
+
+sudo apt install -y tlp tlp-rdw
+#https://linrunner.de/tlp/settings/processor.html #***** TODO
+
+## Final updating to ensure verything is up-to-date.
 sudo apt update
 sudo apt upgrade -y
 sudo apt auto-remove -y
