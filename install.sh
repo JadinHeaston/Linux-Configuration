@@ -19,22 +19,42 @@ sudo apt upgrade -y # Updating apt
 
 ### General
 
-#### Window Management ([material-shell](https://github.com/material-shell/material-shell))
+#### Gnome Customization
 
-sudo apt install -y dbus-x11 gnome-tweaks make npm git
-wget -O material-shell https://github.com/material-shell/material-shell/archive/refs/tags/44.zip && tar -xf material-shell && rm -rf material-shell && mv material-shell-44 material-shell
-cd ~/material-shell
-sudo make install
-cd ~
-gnome-extensions enable material-shell@papyelgringo
 gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/Multiverse_by_Emanuele_Santoro.png
-sudo rm -rf ~/material-shell
 
-###### Removing previous window manager.
+##### (blur-my-shell)(https://github.com/aunetx/blur-my-shell)
 
-sudo mv /usr/share/xsessions/ubuntu.desktop /usr/share/xsessions/ubuntu.desktop.bak
-sudo mv /usr/share/xsessions/ubuntu-xorg.desktop /usr/share/xsessions/ubuntu-xorg.desktop.bak
+git clone "https://github.com/aunetx/blur-my-shell"
+cd blur-my-shell
+make install
+cd ~
+sudo rm -rf ~/blur-my-shell
 
+##### (improvided workspace indicator)[https://github.com/MichaelAquilina/improved-workspace-indicator]
+
+git clone "https://github.com/MichaelAquilina/improved-workspace-indicator.git"
+cd improved-workspace-indicator
+make install
+cd ~
+sudo rm -rf ~/improved-workspace-indicator
+
+##### (netspeedsimplified)[https://github.com/prateekmedia/netspeedsimplified]
+
+git clone "https://github.com/prateekmedia/netspeedsimplified.git"
+cd netspeedsimplified
+make install
+cd ~
+sudo rm -rf ~/netspeedsimplified
+
+##### (vitals)[https://github.com/corecoding/Vitals]
+
+sudo apt install gnome-shell-extension-manager gir1.2-gtop-2.0 lm-sensors
+
+
+
+
+exit 1
 #### Firefox
 
 sudo apt install -y firefox
