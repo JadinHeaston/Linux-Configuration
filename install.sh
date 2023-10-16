@@ -21,14 +21,14 @@ sudo apt upgrade -y # Updating apt
 
 #### Window Management ([material-shell](https://github.com/material-shell/material-shell))
 
-sudo apt install -y gnome-tweaks make npm git
-git clone https://github.com/material-shell/material-shell.git
-cd material-shell
-make install
-killall -3 gnome-shell
+sudo apt install -y dbus-x11 gnome-tweaks make npm git
+wget -O material-shell https://github.com/material-shell/material-shell/archive/refs/tags/44.zip && tar -xf material-shell && rm -rf material-shell && mv material-shell-44 material-shell
+cd ~/material-shell
+sudo make install
 cd ~
 gnome-extensions enable material-shell@papyelgringo
 gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/Multiverse_by_Emanuele_Santoro.png
+sudo rm -rf ~/material-shell
 
 ###### Removing previous window manager.
 
@@ -74,6 +74,13 @@ sudo apt install -y vlc
 #### Beekeeper
 
 
+#### Discord
+
+# sudo apt install gdebi-core
+wget -O ~/discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
+sudo rm -rf ~/discord.deb
+
+
 #### Git
 
 sudo apt install -y git
@@ -84,6 +91,12 @@ git config --global user.name "Jadin Heaston"
 git config --global user.email "jadin+heaston"
 
 ###### GPG Key
+
+#### Rustdesk
+
+wget -O ~/rustdesk.deb https://github.com/rustdesk/rustdesk/releases/download/1.1.9/rustdesk-1.1.9.deb
+sudo apt install ~/rustdesk.deb
+sudo rm -rf ~/Minecraft.deb
 
 #### VS Code
 
@@ -108,13 +121,12 @@ sudo apt install -y lutris
 sudo dpkg --add-architecture i386
 sudo apt update
 sudo apt-get install -y steam
-sudo dpkg --remove-architecture i386
 
 #### Minecraft
 
-wget https://launcher.mojang.com/download/Minecraft.deb
-sudo apt install -y ./Minecraft.deb
-sudo rm -rf ./Minecraft.deb
+wget -O ~/Minecraft.deb https://launcher.mojang.com/download/Minecraft.deb
+sudo apt install -y ~/Minecraft.deb
+sudo rm -rf ~/Minecraft.deb
 
 ### Power Management/Performance
 
@@ -125,3 +137,4 @@ sudo apt install -y tlp tlp-rdw
 sudo apt update
 sudo apt upgrade -y
 sudo apt auto-remove -y
+killall -3 gnome-shell
