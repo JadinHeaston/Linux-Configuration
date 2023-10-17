@@ -1,5 +1,15 @@
-#!/bin/bash
+#!/bin/sh
+
 # Installation Script
+
+## Script Variables
+
+KEEPASS_WEBDAV_MOUNT_PATH=/mnt/keedav/
+KEEPASS_WEBDAV_URL=
+KEEPASS_WEBDAV_USERNAME=
+KEEPASS_WEBDAV_PASSWORD=
+GIT_USER_NAME="Jadin Heaston"
+GIT_USER_EMAIL="86203688+JadinHeaston@users.noreply.github.com"
 
 ## Command Aliases
 
@@ -23,6 +33,7 @@ sudo apt upgrade -y #Updating apt
 #### dconf Customization
 
 sudo apt install -y dconf-editor gnome-shell-extension-manager
+echo "Install \"Blur my Shell (aunetx)\" via Extensions and set Sigma to 5 with brighness intensity to .35"
 
 gsettings set org.gnome.mutter workspaces-only-on-primary false
 
@@ -34,14 +45,20 @@ gnome-extensions disable ding@rastersoft.com #Disable desktop icons.
 ##### Dock
 
 gsettings set org.gnome.desktop.wm.preferences resize-with-right-button true
+
 gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 24
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
 gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor false
 gsettings set org.gnome.shell.extensions.dash-to-dock show-mount false
 gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts-network false
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
 gsettings set org.gnome.shell.extensions.dash-to-dock require-pressure-to-show false
-gsettings set org.gnome.shell.extensions.dash-to-dock docker-position 'BOTTOM'
+
+gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
+gsettings set org.gnome.desktop.interface show-battery-percentage true
+
 
 ##### Taskbar
 
@@ -63,17 +80,16 @@ sudo apt install -y keepassxc
 
 sudo apt install -y davfs2
 #sudo dpkg-reconfigure davfs2
-mkdir -p {KEEPASS_WEBDAV_MOUNT_PATH}
-mkdir ~/.davfs2/
+mkdir -p $KEEPASS_WEBDAV_MOUNT_PATH
 touch ~/.davfs2/secrets
-echo "https://kp.jadinheaston.com/	{KEEPASS_WEBDAV_USERNAME}	{KEEPASS_WEBDAV_PASSWORD}" > ~/.davfs2/secrets #Tab delimited
+echo "$KEEPASS_WEBDAV_URL	$KEEPASS_WEBDAV_USERNAME	$KEEPASS_WEBDAV_PASSWORD" > ~/.davfs2/secrets #Tab delimited (# act as comments, escape them)
 chmod 600 ~/.davfs2/secrets
-echo "https://kp.jadinheaston.com/ {KEEPASS_WEBDAV_MOUNT_PATH} davfs user,_netdev,auto,file_mode=600,dir_mode=700 0 1" > /etc/fstab
+echo "$KEEPASS_WEBDAV_URL $KEEPASS_WEBDAV_MOUNT_PATH davfs user,_netdev,auto,file_mode=600,dir_mode=700 0 1" > /etc/fstab
 sudo usermod -a -G davfs2 {USERNAME}
 touch ~/.bash_profile
 sudo systemctl enable NetworkManager-wait-online.service #Disable for a potential boot improvement.
-echo "mount {KEEPASS_WEBDAV_MOUNT_PATH}" > ~/.bash_profile #Running on login.
-mount {KEEPASS_WEBDAV_MOUNT_PATH}
+echo "mount $KEEPASS_WEBDAV_MOUNT_PATH" > ~/.bash_profile #Running on login.
+mount $KEEPASS_WEBDAV_MOUNT_PATH
 
 #### Thunderbird
 
@@ -89,7 +105,7 @@ sudo apt install -y vlc
 
 # sudo apt install gdebi-core
 wget -O ~/discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
-sudo apt install ~/discord.deb
+sudo apt install -y ~/discord.deb
 sudo rm -rf ~/discord.deb
 
 #### Git
@@ -98,16 +114,16 @@ sudo apt install -y git
 
 ##### Git Configuration
 
-git config --global user.name "Jadin Heaston"
-git config --global user.email "jadin+heaston"
+git config --global user.name "$GIT_USER_NAME"
+git config --global user.email "$GIT_USER_EMAIL"
 
 ###### GPG Key
 
 #### Rustdesk
 
-wget -O ~/rustdesk.deb "https://github.com/rustdesk/rustdesk/releases/download/1.1.9/rustdesk-1.1.9.deb"
-sudo apt install ~/rustdesk.deb
-sudo rm -rf ~/rustdesk.deb
+#wget -O ~/rustdesk.deb "https://github.com/rustdesk/rustdesk/releases/download/1.1.9/rustdesk-1.1.9.deb"
+#sudo apt install -y pulseaudio ~/rustdesk.deb
+#sudo rm -rf ~/rustdesk.deb
 
 #### VS Code
 
@@ -148,5 +164,3 @@ sudo apt install -y tlp tlp-rdw
 sudo apt update
 sudo apt upgrade -y
 sudo apt auto-remove -y
-
-echo "Install \"Blur my Shell (aunetx)\" via Extensions and set Sigma to 5 with brighness intensity to .35"
