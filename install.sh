@@ -4,57 +4,32 @@
 ## Command Aliases
 
 touch ~/.bash_aliases
+
 ## Adding repositories
 
-sudo add-apt-repository -y multiverse # Adding Multiverse repository.
+sudo add-apt-repository -y multiverse
 sudo add-apt-repository -y ppa:phoerious/keepassxc
 sudo add-apt-repository -y ppa:lutris-team/lutris
 
 ## Performing initial update
 
 sudo apt update
-sudo apt upgrade -y # Updating apt
+sudo apt upgrade -y #Updating apt
 
 ## Software
 
 ### General
 
-#### Gnome Customization
+#### dconf Customization
+
+sudo apt install -y dconf-editor
 
 gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/Multiverse_by_Emanuele_Santoro.png
+gsettings set org.gnome.desktop.interface clock-show-seconds true
+gsettings set org.gnome.desktop.interface clock-format 12h
+gsettings set org.gnome.desktop.interface clock-show-weekday 12h
+gsettings set org.gnome.desktop.wm.preferences resize-with-right-button true
 
-##### (blur-my-shell)(https://github.com/aunetx/blur-my-shell)
-
-git clone "https://github.com/aunetx/blur-my-shell"
-cd blur-my-shell
-make install
-cd ~
-sudo rm -rf ~/blur-my-shell
-
-##### (improvided workspace indicator)[https://github.com/MichaelAquilina/improved-workspace-indicator]
-
-git clone "https://github.com/MichaelAquilina/improved-workspace-indicator.git"
-cd improved-workspace-indicator
-make install
-cd ~
-sudo rm -rf ~/improved-workspace-indicator
-
-##### (netspeedsimplified)[https://github.com/prateekmedia/netspeedsimplified]
-
-git clone "https://github.com/prateekmedia/netspeedsimplified.git"
-cd netspeedsimplified
-make install
-cd ~
-sudo rm -rf ~/netspeedsimplified
-
-##### (vitals)[https://github.com/corecoding/Vitals]
-
-sudo apt install gnome-shell-extension-manager gir1.2-gtop-2.0 lm-sensors
-
-
-
-
-exit 1
 #### Firefox
 
 sudo apt install -y firefox
@@ -62,8 +37,8 @@ sudo apt install -y firefox
 #### KeePassXC
 
 sudo apt install -y keepassxc
-##Enabling auto-type
-#touch ~/.bash_aliases
+
+##### Enabling auto-type
 
 ##### Enabling WebDav support
 
@@ -114,9 +89,9 @@ git config --global user.email "jadin+heaston"
 
 #### Rustdesk
 
-wget -O ~/rustdesk.deb https://github.com/rustdesk/rustdesk/releases/download/1.1.9/rustdesk-1.1.9.deb
+wget -O ~/rustdesk.deb "https://github.com/rustdesk/rustdesk/releases/download/1.1.9/rustdesk-1.1.9.deb"
 sudo apt install ~/rustdesk.deb
-sudo rm -rf ~/Minecraft.deb
+sudo rm -rf ~/rustdesk.deb
 
 #### VS Code
 
@@ -144,9 +119,9 @@ sudo apt-get install -y steam
 
 #### Minecraft
 
-wget -O ~/Minecraft.deb https://launcher.mojang.com/download/Minecraft.deb
-sudo apt install -y ~/Minecraft.deb
-sudo rm -rf ~/Minecraft.deb
+wget -O ~/minecraft.deb "https://launcher.mojang.com/download/Minecraft.deb"
+sudo apt install -y ~/minecraft.deb
+sudo rm -rf ~/minecraft.deb
 
 ### Power Management/Performance
 
@@ -157,4 +132,3 @@ sudo apt install -y tlp tlp-rdw
 sudo apt update
 sudo apt upgrade -y
 sudo apt auto-remove -y
-killall -3 gnome-shell
