@@ -22,13 +22,32 @@ sudo apt upgrade -y #Updating apt
 
 #### dconf Customization
 
-sudo apt install -y dconf-editor
+sudo apt install -y dconf-editor gnome-shell-extension-manager
+
+gsettings set org.gnome.mutter workspaces-only-on-primary false
+
+##### Desktop
 
 gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/Multiverse_by_Emanuele_Santoro.png
+gnome-extensions disable ding@rastersoft.com #Disable desktop icons.
+
+##### Dock
+
+gsettings set org.gnome.desktop.wm.preferences resize-with-right-button true
+gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 24
+gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor false
+gsettings set org.gnome.shell.extensions.dash-to-dock show-mount false
+gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts-network false
+gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false
+gsettings set org.gnome.shell.extensions.dash-to-dock require-pressure-to-show false
+gsettings set org.gnome.shell.extensions.dash-to-dock docker-position 'BOTTOM'
+
+##### Taskbar
+
 gsettings set org.gnome.desktop.interface clock-show-seconds true
 gsettings set org.gnome.desktop.interface clock-format 12h
 gsettings set org.gnome.desktop.interface clock-show-weekday 12h
-gsettings set org.gnome.desktop.wm.preferences resize-with-right-button true
 
 #### Firefox
 
@@ -65,9 +84,6 @@ sudo apt install -y thunderbird
 sudo apt install -y vlc
 
 ### Programming
-
-#### Beekeeper
-
 
 #### Discord
 
@@ -132,3 +148,5 @@ sudo apt install -y tlp tlp-rdw
 sudo apt update
 sudo apt upgrade -y
 sudo apt auto-remove -y
+
+echo "Install \"Blur my Shell (aunetx)\" via Extensions and set Sigma to 5 with brighness intensity to .35"
