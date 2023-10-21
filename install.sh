@@ -2,29 +2,45 @@
 
 # Installation Script
 
-## Script Variables
+## Importing Variables
 
-KEEPASS_WEBDAV_MOUNT_PATH=/mnt/keedav/
-KEEPASS_WEBDAV_URL=
-KEEPASS_WEBDAV_USERNAME=
-KEEPASS_WEBDAV_PASSWORD=
-GIT_USER_NAME="Jadin Heaston"
-GIT_USER_EMAIL="86203688+JadinHeaston@users.noreply.github.com"
+if [ -f .env ]; then
+	while IFS= read -r line || [[ -n "$line" ]]; do
+		if [[ ! $line =~ ^\ *# && $line =~ .*= ]]; then
+			# Split the value into the two pairs, delimited by the equals sign (=).
+			key=$(echo "$line" | cut -d= -f1);
+			value=$(echo "$line" | cut -d= -f2-);
+			# Trim leading/trailing whitespace and quotations from the value
+			value=$(echo "$value" | sed -e 's/^[[:space:]"'"'"']*//' -e 's/[[:space:]"'"'"']*$//');
+			export "$key=$value";
+		fi
+	done < .env
+else
+	echo 'INSTALLATION CANCELLED.';
+	echo 'No .env file found. Get the example from: https://github.com/jadinheaston/Linux-Configuration/blob/main/.env.example';
+	exit;
+fi
 
+if [ "${DCONF_EDIT,}" == "true" ]; then
+	echo "TRUE"
+else
+	echo "FALSE"
+fi
+echo $DCONF_EDIT
+
+exit;
 ## Command Aliases
 
-touch ~/.bash_aliases
+touch ~/.bash_aliases;
 
 ## Adding repositories
 
-sudo add-apt-repository -y multiverse
-sudo add-apt-repository -y ppa:phoerious/keepassxc
-sudo add-apt-repository -y ppa:lutris-team/lutris
+sudo add-apt-repository -y multiverse;
 
 ## Performing initial update
 
-sudo apt update
-sudo apt upgrade -y #Updating apt
+sudo apt update;
+sudo apt upgrade -y; #Updating apt
 
 ## Software
 
@@ -32,133 +48,161 @@ sudo apt upgrade -y #Updating apt
 
 #### dconf Customization
 
-sudo apt install -y dconf-editor gnome-shell-extension-manager
-echo "Install \"Blur my Shell (aunetx)\" via Extensions and set Sigma to 5 with brighness intensity to .35"
+if [ "${DCONF_EDIT,}" == "true" ]; then
+	sudo apt install -y dconf-editor gnome-shell-extension-manager;
+	echo 'DCONF_EDIT: Install "Blur my Shell (aunetx)" via Extensions and set Sigma to 5 with brighness intensity to .35';
 
-gsettings set org.gnome.mutter workspaces-only-on-primary false
+	gsettings set org.gnome.mutter workspaces-only-on-primary $DCONF_WORKSPACES_ONLY_ON_PRIMARY;
+	gsettings set org.gnome.settings-daemon.plugins.power idle-dim $DCONF_IDLE_DIM;
+	gsettings set org.gnome.desktop.wm.preferences resize-with-right-button $DCONF_RESIZE_WINDOWS_WITH_RMB;
 
-##### Desktop
+	##### Desktop
 
-gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/Multiverse_by_Emanuele_Santoro.png
-gnome-extensions disable ding@rastersoft.com #Disable desktop icons.
+	gsettings set org.gnome.desktop.background picture-uri-dark file:///usr/share/backgrounds/Multiverse_by_Emanuele_Santoro.png;
+	if [ "${DCONF_DISABLE_DESKTOP,}" == "true" ]; then
+		gnome-extensions disable ding@rastersoft.com; #Disable desktop icons.
+	fi
 
-##### Dock
+	##### Dock
 
-gsettings set org.gnome.desktop.wm.preferences resize-with-right-button true
+	gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size $DCONF_DASH_MAX_ICON_SIZE;
+	gsettings set org.gnome.shell.extensions.dash-to-dock extend-height $DCONF_EXTEND_HEIGHT;
+	gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor $DCONF_MULTI_MONITOR;
+	gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts $DCONF_SHOW_MOUNTS;
+	gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts-network $DCONF_SHOW_MOUNTS_NETWORK;
+	gsettings set org.gnome.shell.extensions.dash-to-dock show-trash $DCONF_SHOW_TRASH;
+	gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed $DCONF_DOCK_FIXED;
+	gsettings set org.gnome.shell.extensions.dash-to-dock dock-position $DCONF_DOCK_POSITION;
+	gsettings set org.gnome.shell.extensions.dash-to-dock require-pressure-to-show $DCONF_REQUIRE_PRESSURE_TO_SHOW;
 
-gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 24
-gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
-gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor false
-gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
-gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts-network false
-gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false
-gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
-gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
-gsettings set org.gnome.shell.extensions.dash-to-dock require-pressure-to-show false
+	##### Taskbar
 
-gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
-gsettings set org.gnome.desktop.interface show-battery-percentage true
-
-
-##### Taskbar
-
-gsettings set org.gnome.desktop.interface clock-show-seconds true
-gsettings set org.gnome.desktop.interface clock-format 12h
-gsettings set org.gnome.desktop.interface clock-show-weekday 12h
+	gsettings set org.gnome.desktop.interface clock-show-seconds $CLOCK_SHOW_SECONDS;
+	gsettings set org.gnome.desktop.interface clock-format $CLOCK_FORMAT;
+	gsettings set org.gnome.desktop.interface clock-show-weekday $CLOCK_SHOW_WEEKDAY;
+	gsettings set org.gnome.desktop.interface show-battery-percentage $DCONF_SHOW_BATTERY_PERCENTAGE;
+fi
 
 #### Firefox
 
-sudo apt install -y firefox
+if [ "${INSTALL_FIREFOX,}" == "true" ]; then
+	sudo apt install -y firefox
+fi
 
 #### KeePassXC
 
-sudo apt install -y keepassxc
+if [ "${INSTALL_KEEPASSXC,}" == "true" ]; then
+	sudo add-apt-repository -y ppa:phoerious/keepassxc;
+	sudo apt update;
+	sudo apt install -y keepassxc
 
-##### Enabling auto-type
+	##### Enabling auto-type
 
-##### Enabling WebDav support
+	##### Enabling WebDav support
 
-sudo apt install -y davfs2
-#sudo dpkg-reconfigure davfs2
-mkdir -p $KEEPASS_WEBDAV_MOUNT_PATH
-touch ~/.davfs2/secrets
-echo "$KEEPASS_WEBDAV_URL	$KEEPASS_WEBDAV_USERNAME	$KEEPASS_WEBDAV_PASSWORD" > ~/.davfs2/secrets #Tab delimited (# act as comments, escape them)
-chmod 600 ~/.davfs2/secrets
-echo "$KEEPASS_WEBDAV_URL $KEEPASS_WEBDAV_MOUNT_PATH davfs user,_netdev,auto,file_mode=600,dir_mode=700 0 1" > /etc/fstab
-sudo usermod -a -G davfs2 {USERNAME}
-touch ~/.bash_profile
-sudo systemctl enable NetworkManager-wait-online.service #Disable for a potential boot improvement.
-echo "mount $KEEPASS_WEBDAV_MOUNT_PATH" > ~/.bash_profile #Running on login.
-mount $KEEPASS_WEBDAV_MOUNT_PATH
+	sudo apt install -y davfs2
+	#sudo dpkg-reconfigure davfs2
+	mkdir -p $KEEPASS_WEBDAV_MOUNT_PATH
+	touch ~/.davfs2/secrets
+	echo "$KEEPASS_WEBDAV_URL	$KEEPASS_WEBDAV_USERNAME	$KEEPASS_WEBDAV_PASSWORD" > ~/.davfs2/secrets #Tab delimited (# act as comments, escape them)
+	chmod 600 ~/.davfs2/secrets
+	echo "$KEEPASS_WEBDAV_URL $KEEPASS_WEBDAV_MOUNT_PATH davfs user,_netdev,auto,file_mode=600,dir_mode=700 0 1" > /etc/fstab
+	sudo usermod -a -G davfs2 $USER
+	touch ~/.bash_profile
+	sudo systemctl enable NetworkManager-wait-online.service #Disable for a potential boot improvement.
+	echo "mount $KEEPASS_WEBDAV_MOUNT_PATH" > ~/.bash_profile #Running on login.
+	mount $KEEPASS_WEBDAV_MOUNT_PATH
+fi
 
 #### Thunderbird
 
-sudo apt install -y thunderbird
+if [ "${INSTALL_THUNDERBIRD,}" == "true" ]; then
+	sudo apt install -y thunderbird
+fi
 
 #### VLC
 
-sudo apt install -y vlc
+if [ "${INSTALL_VLC,}" == "true" ]; then
+	sudo apt install -y vlc
+fi
 
 ### Programming
 
 #### Discord
 
-# sudo apt install gdebi-core
-wget -O ~/discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
-sudo apt install -y ~/discord.deb
-sudo rm -rf ~/discord.deb
+if [ "${INSTALL_DISCORD,}" == "true" ]; then
+	# sudo apt install gdebi-core
+	wget -O ~/discord.deb "https://discordapp.com/api/download?platform=linux&format=deb"
+	sudo apt install -y ~/discord.deb
+	sudo rm -rf ~/discord.deb
+fi
 
 #### Git
 
-sudo apt install -y git
+if [ "${INSTALL_GIT,}" == "true" ]; then
+	sudo apt install -y git
+	
+	##### Git Configuration
 
-##### Git Configuration
+	git config --global user.name "$GIT_USER_NAME"
+	git config --global user.email "$GIT_USER_EMAIL"
 
-git config --global user.name "$GIT_USER_NAME"
-git config --global user.email "$GIT_USER_EMAIL"
-
-###### GPG Key
+	###### GPG Key
+fi
 
 #### Rustdesk
 
-#wget -O ~/rustdesk.deb "https://github.com/rustdesk/rustdesk/releases/download/1.1.9/rustdesk-1.1.9.deb"
-#sudo apt install -y pulseaudio ~/rustdesk.deb
-#sudo rm -rf ~/rustdesk.deb
+if [ "${INSTALL_RUSTDESK,}" == "true" ]; then
+	#wget -O ~/rustdesk.deb "https://github.com/rustdesk/rustdesk/releases/download/1.1.9/rustdesk-1.1.9.deb"
+	#sudo apt install -y pulseaudio ~/rustdesk.deb
+	#sudo rm -rf ~/rustdesk.deb
+fi
 
 #### VS Code
 
-sudo apt-get install wget gpg
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-rm -f packages.microsoft.gpg
-sudo apt install -y apt-transport-https
-sudo apt update
-sudo apt install -y code
+if [ "${INSTALL_VSCODE,}" == "true" ]; then
+	sudo apt-get install wget gpg
+	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+	sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+	sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+	rm -f packages.microsoft.gpg
+	sudo apt install -y apt-transport-https
+	sudo apt update
+	sudo apt install -y code
+fi
 
 ### Gaming
 
 #### Lutris
 
-sudo apt update
-sudo apt install -y lutris
+if [ "${INSTALL_LUTRIS,}" == "true" ]; then
+	sudo add-apt-repository -y ppa:lutris-team/lutris;
+	sudo apt update
+	sudo apt install -y lutris
+fi
 
 #### Steam
 
-sudo dpkg --add-architecture i386
-sudo apt update
-sudo apt-get install -y steam
+if [ "${INSTALL_STEAM,}" == "true" ]; then
+	sudo dpkg --add-architecture i386
+	sudo apt update
+	sudo apt-get install -y steam
+fi
 
 #### Minecraft
 
-wget -O ~/minecraft.deb "https://launcher.mojang.com/download/Minecraft.deb"
-sudo apt install -y ~/minecraft.deb
-sudo rm -rf ~/minecraft.deb
+if [ "${INSTALL_MINECRAFT,}" == "true" ]; then
+	wget -O ~/minecraft.deb "https://launcher.mojang.com/download/Minecraft.deb"
+	sudo apt install -y ~/minecraft.deb
+	sudo rm -rf ~/minecraft.deb
+fi
 
 ### Power Management/Performance
 
-sudo apt install -y tlp tlp-rdw
-#https://linrunner.de/tlp/settings/processor.html #***** TODO
+if [ "${INSTALL_TLP,}" == "true" ]; then
+	sudo apt install -y tlp tlp-rdw
+	#https://linrunner.de/tlp/settings/processor.html #***** TODO
+fi
 
 ## Final updating to ensure verything is up-to-date.
 sudo apt update
