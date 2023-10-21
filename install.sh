@@ -69,9 +69,9 @@ if [ "${DCONF_EDIT,}" == "true" ]; then
 
 	##### Taskbar
 
-	gsettings set org.gnome.desktop.interface clock-show-seconds $CLOCK_SHOW_SECONDS;
-	gsettings set org.gnome.desktop.interface clock-format $CLOCK_FORMAT;
-	gsettings set org.gnome.desktop.interface clock-show-weekday $CLOCK_SHOW_WEEKDAY;
+	gsettings set org.gnome.desktop.interface clock-show-seconds $DCONF_CLOCK_SHOW_SECONDS;
+	gsettings set org.gnome.desktop.interface clock-format $DCONF_CLOCK_FORMAT;
+	gsettings set org.gnome.desktop.interface clock-show-weekday $DCONF_CLOCK_SHOW_WEEKDAY;
 	gsettings set org.gnome.desktop.interface show-battery-percentage $DCONF_SHOW_BATTERY_PERCENTAGE;
 fi
 
