@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Installation Script
 
@@ -21,14 +21,6 @@ else
 	exit;
 fi
 
-if [ "${DCONF_EDIT,}" == "true" ]; then
-	echo "TRUE"
-else
-	echo "FALSE"
-fi
-echo $DCONF_EDIT
-
-exit;
 ## Command Aliases
 
 touch ~/.bash_aliases;
@@ -153,6 +145,7 @@ fi
 #### Rustdesk
 
 if [ "${INSTALL_RUSTDESK,}" == "true" ]; then
+	echo 'RUSTDESK INTSALLATION WiP. NO INSTALLATION DONE.';
 	#wget -O ~/rustdesk.deb "https://github.com/rustdesk/rustdesk/releases/download/1.1.9/rustdesk-1.1.9.deb"
 	#sudo apt install -y pulseaudio ~/rustdesk.deb
 	#sudo rm -rf ~/rustdesk.deb
