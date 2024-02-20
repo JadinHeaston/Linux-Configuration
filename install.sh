@@ -47,6 +47,7 @@ if [ "${DCONF_EDIT,}" == "true" ]; then
 	gsettings set org.gnome.mutter workspaces-only-on-primary $DCONF_WORKSPACES_ONLY_ON_PRIMARY;
 	gsettings set org.gnome.settings-daemon.plugins.power idle-dim $DCONF_IDLE_DIM;
 	gsettings set org.gnome.desktop.wm.preferences resize-with-right-button $DCONF_RESIZE_WINDOWS_WITH_RMB;
+	gsettings set org.gnome.desktop.interface gtk-enable-primary-paste false
 
 	##### Desktop
 
